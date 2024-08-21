@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dibujo de Figuras Geométricas</title>
+    <style>
+        body {
+            position: relative;
+            font-family: Arial, sans-serif;
+        }
+        #titulo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+            height: auto;
+        }
+        #canvas {
+            border: 1px solid black;
+            background-color: white;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Dibuja Figuras Geométricas</h1>
+    <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/c/c4/LOGO_UMNG.png" alt="Logo UMNG">
+    
+    <form id="figuraForm">
+        <label for="figura">Selecciona la figura:</label>
+        <select id="figura" name="figura">
+            <option value="circulo">Círculo</option>
+            <option value="cuadrado">Cuadrado</option>
+            <option value="rectangulo">Rectángulo</option>
+            <option value="triangulo">Triángulo</option>
+            <option value="pentagono">Pentágono</option>
+        </select>
+        <br><br>
+
+        <label for="color">Color de relleno:</label>
+        <input type="color" id="color" name="color">
+        <br><br>
+
+        <label for="borde">Color del borde:</label>
+        <input type="color" id="borde" name="borde">
+        <br><br>
+
+        <label for="anchoBorde">Ancho del borde:</label>
+        <input type="number" id="anchoBorde" name="anchoBorde" value="2">
+        <br><br>
+
+        <label for="posX">Posición X:</label>
+        <input type="number" id="posX" name="posX" min="0">
+        <br><br>
+
+        <label for="posY">Posición Y:</label>
+        <input type="number" id="posY" name="posY" min="0">
+        <br><br>
+
+        <label for="ancho">Ancho/Radio:</label>
+        <input type="number" id="ancho" name="ancho" min="0">
+        <br><br>
+
+        <label for="alto">Alto:</label>
+        <input type="number" id="alto" name="alto" min="0">
+        <br><br>
+
+        <label for="tipo">Tipo de imagen:</label>
+        <select id="tipo" name="tipo">
+            <option value="vector">Vector</option>
+            <option value="raster">Raster</option>
+        </select>
+        <br><br>
+
+        <button type="button" onclick="dibujarFigura()">Dibujar</button>
+        <button type="button" onclick="borrarFiguras()">Borrar todas las figuras</button>
+    </form>
+    <br>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script src="imagen.js"></script>
+</body>
+</html>
