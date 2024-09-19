@@ -14,16 +14,24 @@ class Linea extends Figura {
     }
 
     dibujar() {
+        // Crea un nuevo elemento SVG de tipo 'line'
+        // El espacio de nombres 'http://www.w3.org/2000/svg' es necesario para trabajar con SVG "se usa para enunciar las librerias para complementar"
         const linea = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        
         linea.setAttribute("x1", this.x1);
         linea.setAttribute("y1", this.y1);
+        
         linea.setAttribute("x2", this.x2);
         linea.setAttribute("y2", this.y2);
-        linea.setAttribute("stroke", "black");  // Asegurando que el trazo sea negro
-        linea.setAttribute("stroke-width", "2");  // Grosor del trazo para mejor visibilidad
+        
+        linea.setAttribute("stroke", "black");  // Asegura que la línea sea visible con un trazo negro
+        
+        linea.setAttribute("stroke-width", "2");  // Establece el grosor para que la línea sea más visible
+        
         this.canvas.appendChild(linea);
     }
 }
+
 
 class Circunferencia extends Figura {
     constructor(cx, cy, r) {
