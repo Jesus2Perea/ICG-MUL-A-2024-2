@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poligonos Rasterizados</title>
+    <title>Polígonos Rasterizados</title>
     <style>
         body {
             position: relative;
@@ -13,7 +13,7 @@
             text-align: center;
             margin-top: 20px;
         }
-        #resultado{
+        #resultado {
             text-align: center;
         }
         #logo {
@@ -23,26 +23,25 @@
             width: 100px;
             height: auto;
         }
-        #svgContainer {
+        #canvasContainer {
             border: 5px solid black;
             background-color: white;
-            width: 600px; /* Establecer un ancho fijo para el SVG */
-            height: 600px; /* Establecer una altura fija para el SVG */
+            width: 600px;
+            height: 600px;
             margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <h1 id="titulo">Dibuja Poligonos Rasterizados</h1>
+    <h1 id="titulo">Dibuja Polígonos Rasterizados</h1>
     <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/c/c4/LOGO_UMNG.png" alt="Logo UMNG">
-    
     
     <!-- Botón para generar un nuevo polígono -->
     <button id="generarPoligonoBtn">Generar nuevo polígono</button>
 
-    <!-- Contenedor donde se dibuja el polígono SVG -->
-    <div id="svgContainer">
-        <svg id="svg" width="500" height="500"></svg> <!-- Contenedor SVG agregado -->
+    <!-- Contenedor donde se dibuja el polígono en un canvas -->
+    <div id="canvasContainer">
+        <canvas id="canvas" width="500" height="500"></canvas> <!-- Contenedor Canvas agregado -->
     </div>
 
     <!-- Texto donde se mostrará si el polígono es cóncavo o convexo -->
