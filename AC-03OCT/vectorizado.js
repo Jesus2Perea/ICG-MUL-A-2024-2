@@ -150,3 +150,26 @@ class Poligono {
         this.dibujarPoligonoSVG(svg); // Dibuja el polígono en el contenedor SVG
     }
 }
+
+// Función para crear y dibujar un nuevo polígono en el SVG
+function dibujarPoligonoV() {
+    const poligono = new Poligono(); // Crear una nueva instancia de Poligono
+    const svg = document.getElementById('svg'); // Obtener el elemento contenedor SVG
+    poligono.ordenarPuntosSentidoHorario(); // Ordenar los puntos del polígono en sentido horario
+    poligono.dibujarPoligonoSVG(svg); // Dibujar el polígono en el contenedor SVG
+    poligono.mostrarResultado(); // Mostrar si el polígono es cóncavo o convexo
+}
+
+// Al cargar la página, se genera y dibuja un polígono por defecto
+dibujarPoligonoV();
+
+// Asocia la función de crear un nuevo polígono al evento 'click' del botón "Generar Polígono"
+document.getElementById('generarPoligonoBtn').addEventListener('click', dibujarPoligonoV);
+
+// Asocia el evento 'click' del botón "Generar Polígono en Sentido Horario"
+// para crear un nuevo polígono y dibujarlo en sentido horario
+document.getElementById('generarPoligonoHorarioBtn').addEventListener('click', () => {
+    const poligono = new Poligono(); // Crear una nueva instancia de Poligono
+    const svg = document.getElementById('svg'); // Obtener el elemento contenedor SVG
+    poligono.dibujarPoligonoSVGHorario(svg); // Dibujar el polígono en sentido horario en el SVG
+});
