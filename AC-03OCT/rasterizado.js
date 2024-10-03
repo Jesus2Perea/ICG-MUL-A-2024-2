@@ -146,6 +146,39 @@ class Poligono {
     }
 }
 
+// Función para dibujar o eliminar las líneas punteadas hacia el centroide
+function toggleLineasCentroide() {
+    const svg = document.getElementById('svg');
+    
+    // Si las líneas ya están dibujadas, las eliminamos
+    if (lineasCentroideDibujadas) {
+        // Eliminar todas las líneas del SVG
+        const lineas = svg.querySelectorAll('line');
+        lineas.forEach(linea => svg.removeChild(linea));
+        lineasCentroideDibujadas = false;
+    } else {
+        // Si no están dibujadas, las dibujamos desde el polígono actual
+        const centroide = poligonoActual.calcularCentroide(); // Calcular el centroide
+
+        // Dibujar las líneas desde cada punto del polígono hasta el centroide
+        poligonoActual.puntos.forEach(punto => {
+            const linea = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            linea.setAttribute("x1", punto.x);
+            linea.setAttribute("y1", punto.y);
+            linea.setAttribute("x2", centroide.x);
+            linea.setAttribute("y2", centroide.y);
+            linea.setAttribute("stroke", "black");
+            linea.setAttribute("stroke-width", "1");
+            linea.setAttribute("stroke-dasharray", "5,5"); // Líneas punteadas
+
+            svg.appendChild(linea);
+        });
+
+        lineasCentroideDibujadas = true;
+    }
+}
+
+
 // Función para generar y dibujar un nuevo polígono
 function dibujarPoligonoR() {
     const poligono = new Poligono(); // Crear una nueva instancia de Poligono
@@ -157,5 +190,5 @@ function dibujarPoligonoR() {
 // Al cargar la página, se genera un polígono automáticamente
 dibujarPoligonoR();
 
-// Asociar la función de generar un nuevo polígono al evento 'click' del botón
-document.getElementById('generarPoligonoBtn').addEventListener('click', dibujarPoligonoR);
+// Asocia la función para activar/desactivar las líneas al centroide al evento 'click' del botón
+document.getElementById('generarPoligonoBtn').addEventListener('click', toggleLineasCentroide);

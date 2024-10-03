@@ -27,91 +27,75 @@ class Punto {
 
 // Clase que representa un polígono formado por varios puntos
 class Poligono {
-    #puntos; // Propiedad privada para almacenar los puntos del polígono
+    #puntos;
 
     constructor() {
-        // Inicializa los puntos del polígono de forma aleatoria
         this.#puntos = this.#generarPuntosAleatorios();
     }
 
-    // Método privado para generar una cantidad aleatoria de puntos
     #generarPuntosAleatorios() {
-        const numPuntos = Math.floor(Math.random() * 13) + 3; // Genera entre 3 y 15 puntos
+        const numPuntos = Math.floor(Math.random() * 13) + 3;
         const puntos = [];
 
         for (let i = 0; i < numPuntos; i++) {
-            const x = Math.floor(Math.random() * 500); // Coordenada x entre 0 y 500
-            const y = Math.floor(Math.random() * 500); // Coordenada y entre 0 y 500
-            puntos.push(new Punto(x, y)); // Crea un nuevo punto y lo agrega a la lista
+            const x = Math.floor(Math.random() * 500);
+            const y = Math.floor(Math.random() * 500);
+            puntos.push(new Punto(x, y));
         }
 
         return puntos;
     }
 
-    // Getter para acceder a los puntos del polígono
     get puntos() {
         return this.#puntos;
     }
 
-    // Método que dibuja el polígono en un contenedor SVG
     dibujarPoligonoSVG(svg) {
-        // Limpia el contenedor SVG antes de dibujar
         while (svg.firstChild) {
             svg.removeChild(svg.firstChild);
         }
 
-        // Crea una cadena de puntos a partir de las coordenadas del polígono
         const puntosPoligono = this.#puntos.map(p => `${p.x},${p.y}`).join(" ");
         const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
         
-        // Asigna atributos al elemento <polygon>
         polygon.setAttribute("points", puntosPoligono);
         polygon.setAttribute("stroke", "black");
         polygon.setAttribute("stroke-width", "2");
         polygon.setAttribute("fill", "none");
 
-        // Añade el polígono al contenedor SVG
         svg.appendChild(polygon);
     }
 
-    // Método para calcular el centroide (punto medio) del polígono
     calcularCentroide() {
         let sumaX = 0;
         let sumaY = 0;
         const numPuntos = this.#puntos.length;
 
-        // Suma todas las coordenadas x e y de los puntos
         this.#puntos.forEach(p => {
             sumaX += p.x;
             sumaY += p.y;
         });
 
-        // Calcula el centroide como el promedio de las coordenadas
         return new Punto(sumaX / numPuntos, sumaY / numPuntos);
     }
 
-    // Método que ordena los puntos en sentido horario
     ordenarPuntosSentidoHorario() {
-        const centroide = this.calcularCentroide(); // Calcula el centroide del polígono
+        const centroide = this.calcularCentroide();
 
-        // Ordena los puntos en sentido antihorario según el ángulo respecto al centroide
         this.#puntos.sort((a, b) => {
             const anguloA = Math.atan2(a.y - centroide.y, a.x - centroide.x);
             const anguloB = Math.atan2(b.y - centroide.y, b.x - centroide.x);
             return anguloA - anguloB;
         });
 
-        // Invertimos el orden para que sea en sentido horario
         this.#puntos.reverse();
     }
 
-    // Método para determinar si el polígono es cóncavo o convexo
     esConcavoOConvexo() {
         let esConcavo = false;
         const numPuntos = this.#puntos.length;
         let signo = 0;
 
-        // Recorre los puntos para analizar el signo de las áreas entre triples de puntos
         for (let i = 0; i < numPuntos; i++) {
             const dx1 = this.#puntos[(i + 2) % numPuntos].x - this.#puntos[(i + 1) % numPuntos].x;
             const dy1 = this.#puntos[(i + 2) % numPuntos].y - this.#puntos[(i + 1) % numPuntos].y;
@@ -134,42 +118,65 @@ class Poligono {
             }
         }
 
-        // Retorna si el polígono es cóncavo o convexo
         return esConcavo ? 'Cóncavo' : 'Convexo';
     }
 
-    // Método que muestra si el polígono es cóncavo o convexo en el HTML
     mostrarResultado() {
         const resultado = this.esConcavoOConvexo();
         document.getElementById('resultado').innerText = `El polígono es: ${resultado}`;
     }
-
-    // Método que dibuja el polígono en un contenedor SVG en sentido horario
-    dibujarPoligonoSVGHorario(svg) {
-        this.ordenarPuntosSentidoHorario(); // Ordena los puntos en sentido horario
-        this.dibujarPoligonoSVG(svg); // Dibuja el polígono en el contenedor SVG
-    }
 }
+
+// Variable para verificar si las líneas al centroide ya están dibujadas
+let lineasCentroideDibujadas = false;
+let poligonoActual; // Variable para guardar el polígono actual
 
 // Función para crear y dibujar un nuevo polígono en el SVG
 function dibujarPoligonoV() {
-    const poligono = new Poligono(); // Crear una nueva instancia de Poligono
-    const svg = document.getElementById('svg'); // Obtener el elemento contenedor SVG
-    poligono.ordenarPuntosSentidoHorario(); // Ordenar los puntos del polígono en sentido horario
-    poligono.dibujarPoligonoSVG(svg); // Dibujar el polígono en el contenedor SVG
-    poligono.mostrarResultado(); // Mostrar si el polígono es cóncavo o convexo
+    poligonoActual = new Poligono(); // Guardar el polígono generado
+    const svg = document.getElementById('svg');
+    poligonoActual.ordenarPuntosSentidoHorario();
+    poligonoActual.dibujarPoligonoSVG(svg);
+    poligonoActual.mostrarResultado();
+    
+    // Reiniciar el estado de las líneas al centroide al dibujar un nuevo polígono
+    lineasCentroideDibujadas = false;
+}
+
+// Función para dibujar o eliminar las líneas punteadas hacia el centroide
+function toggleLineasCentroide() {
+    const svg = document.getElementById('svg');
+    
+    // Si las líneas ya están dibujadas, las eliminamos
+    if (lineasCentroideDibujadas) {
+        // Eliminar todas las líneas del SVG
+        const lineas = svg.querySelectorAll('line');
+        lineas.forEach(linea => svg.removeChild(linea));
+        lineasCentroideDibujadas = false;
+    } else {
+        // Si no están dibujadas, las dibujamos desde el polígono actual
+        const centroide = poligonoActual.calcularCentroide(); // Calcular el centroide
+
+        // Dibujar las líneas desde cada punto del polígono hasta el centroide
+        poligonoActual.puntos.forEach(punto => {
+            const linea = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            linea.setAttribute("x1", punto.x);
+            linea.setAttribute("y1", punto.y);
+            linea.setAttribute("x2", centroide.x);
+            linea.setAttribute("y2", centroide.y);
+            linea.setAttribute("stroke", "black");
+            linea.setAttribute("stroke-width", "1");
+            linea.setAttribute("stroke-dasharray", "5,5"); // Líneas punteadas
+
+            svg.appendChild(linea);
+        });
+
+        lineasCentroideDibujadas = true;
+    }
 }
 
 // Al cargar la página, se genera y dibuja un polígono por defecto
 dibujarPoligonoV();
 
-// Asocia la función de crear un nuevo polígono al evento 'click' del botón "Generar Polígono"
-document.getElementById('generarPoligonoBtn').addEventListener('click', dibujarPoligonoV);
-
-// Asocia el evento 'click' del botón "Generar Polígono en Sentido Horario"
-// para crear un nuevo polígono y dibujarlo en sentido horario
-document.getElementById('generarPoligonoHorarioBtn').addEventListener('click', () => {
-    const poligono = new Poligono(); // Crear una nueva instancia de Poligono
-    const svg = document.getElementById('svg'); // Obtener el elemento contenedor SVG
-    poligono.dibujarPoligonoSVGHorario(svg); // Dibujar el polígono en sentido horario en el SVG
-});
+// Asocia la función para activar/desactivar las líneas al centroide al evento 'click' del botón
+document.getElementById('generarPoligonoBtn').addEventListener('click', toggleLineasCentroide);
