@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dibujo de Poligonos Vcetorizados</title>
+    <style>
+        body {
+            position: relative;
+            font-family: Arial, sans-serif;
+        }
+        #titulo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+            height: auto;
+        }
+        #svgContainer {
+            border: 2px solid black;
+            background-color: white;
+            width: 500px; /* Establecer un ancho fijo para el SVG */
+            height: 500px; /* Establecer una altura fija para el SVG */
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Dibuja Poligonos vectorizados</h1>
+    <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/c/c4/LOGO_UMNG.png" alt="Logo UMNG">
+    
+    
+    <!-- Botón para generar un nuevo polígono -->
+    <button id="generarPoligonoBtn">Generar nuevo polígono</button>
+
+    <!-- Contenedor donde se dibuja el polígono SVG -->
+    <div id="svgContainer">
+        <svg id="svg" width="500" height="500"></svg> <!-- Contenedor SVG agregado -->
+    </div>
+
+    <!-- Texto donde se mostrará si el polígono es cóncavo o convexo -->
+    <h2 id="resultado"></h2>
+
+    <!-- Enlace al script JS -->
+    <script src="vectorizado.js"></script>
+</body>
+</html>
