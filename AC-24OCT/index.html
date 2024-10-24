@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relleno de figuras</title>
+    <style>
+        /* Estilos CSS que estaban en style.css */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #controls {
+            margin-bottom: 20px;
+        }
+
+        #logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 100px;
+            height: auto;
+        }
+
+        #controls label {
+            font-weight: bold;
+        }
+
+        #canvas-container {
+            position: relative;
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #imageName {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        #canvas {
+            border: 1px solid black;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Relleno de Figuras con Scan-Fill y Flood-Fill</h1>
+    <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/c/c4/LOGO_UMNG.png" alt="Logo UMNG">
+
+    <div id="controls">
+        <label for="imageSelect">Seleccionar Imagen:</label>
+        <input type="file" id="imageSelect" accept="image/*"><br>
+        
+        <button id="scanFillButton">Aplicar Scan-Fill</button>
+        <button id="floodFillButton">Aplicar Flood-Fill</button>
+    </div>
+
+    <div id="canvas-container">
+        <div id="imageName">Nombre de la imagen seleccionada: Ninguna</div>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
